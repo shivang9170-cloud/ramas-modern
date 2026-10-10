@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+# uploaded POD images (customer signatures) — never commit
+server/uploads/
+*.log
+.DS_Store
+
+# Azure deploy package (scripts/make-azure-package.ps1)
+azure-package/
+azure-package.zip
+prod-local.log
+
+# test run reports and database backups
+docs/test-reports/
+*.bak

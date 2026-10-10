@@ -1,0 +1,35 @@
+{
+  "name": "ramas-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "REST API for the Ramas logistics ERP (replaces the ASP.NET WebForms code-behind, ClassLibrary and OperationService).",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "test": "node --env-file-if-exists=.env --test --test-concurrency=1 \"test/**/*.test.js\"",
+    "db:dev": "node --env-file-if-exists=.env scripts/setup-dev-db.js",
+    "db:cloud": "node --env-file-if-exists=.env scripts/setup-cloud-db.js"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mssql": "^11.0.1",
+    "zod": "^3.24.1"
+  },
+  "optionalDependencies": {
+    "msnodesqlv8": "^4.5.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}

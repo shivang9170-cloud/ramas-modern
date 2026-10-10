@@ -1,0 +1,308 @@
+/* Colours come from the chosen look (theme/themes.js sets these variables on <html>); the fallbacks are Aurora. */
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--app-bg, #f4f5fb);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- premium polish (works on every theme via the CSS variables) ---- */
+/* smooth, cheap transitions — no animation library needed */
+.ant-card, .ant-btn, .module-tile, .ant-menu-item, .ant-menu-submenu-title, .ant-segmented-item, .ant-tag {
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease, color .18s ease;
+}
+/* page content fades/slides in */
+.app-content > * { animation: ramas-in .26s ease both; }
+@keyframes ramas-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+/* cards lift a little on hover */
+.page-card:hover { box-shadow: var(--shadow, 0 8px 24px rgba(16,24,40,.09)); }
+.dash-card:hover, .module-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow, 0 8px 24px rgba(16,24,40,.12)); }
+/* nicer logo / headings font */
+.app-logo, .ant-card-head-title, h1, h2, h3, .ant-typography h1, .ant-typography h2, .ant-typography h3 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+/* slim, modern scrollbars */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent, #6366f1) 45%, transparent) transparent; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--accent, #6366f1) 40%, transparent); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent, #6366f1) 65%, transparent); background-clip: padding-box; }
+/* primary buttons get a soft glow using the theme accent */
+.ant-btn-primary { box-shadow: 0 2px 8px var(--accent-soft, rgba(99,102,241,.2)); }
+.ant-btn-primary:hover { box-shadow: 0 4px 14px var(--accent-soft, rgba(99,102,241,.32)); transform: translateY(-1px); }
+
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--login-bg, linear-gradient(135deg, #0f2a4a 0%, #1f5fa8 100%));
+}
+.login-card { width: 100%; max-width: 420px; }
+.login-theme { position: absolute; top: 16px; right: 16px; }
+
+/* Theme picker colour chips */
+.theme-swatch { display: inline-flex; border-radius: 4px; overflow: hidden; border: 1px solid rgba(128, 128, 128, 0.35); margin-top: 3px; }
+.theme-swatch > span { width: 12px; height: 22px; display: block; }
+
+.app-sider { border-inline-end: 1px solid var(--sider-border, transparent); }
+.app-sider-right { border-inline-end: none; border-inline-start: 1px solid var(--sider-border, transparent); }
+
+/* ---- UI presets (theme/themes.js): the data-ui-* attributes on <html> ---- */
+/* menu along the top */
+.app-topnav { display: flex; align-items: center; gap: 8px; padding: 0 8px; background: var(--sider-bg, #0f2a4a); min-height: 48px; }
+.app-topnav .app-logo { height: 48px; padding: 0 12px; }
+.app-topnav-menu { flex: 1 1 auto; min-width: 0; background: transparent !important; border-bottom: none !important; }
+
+/* UI chooser — vertical list in the right drawer */
+.theme-drawer .ant-drawer-body { padding: 12px 16px; }
+.theme-row { cursor: pointer; padding: 10px 10px !important; border-radius: 10px; margin-bottom: 4px; border: 1px solid transparent !important; transition: background-color .15s ease, border-color .15s ease; }
+.theme-row:hover { background: var(--accent-soft, rgba(99,102,241,.12)); }
+.theme-row.theme-row-active { border-color: var(--accent) !important; background: var(--accent-soft, rgba(99,102,241,.14)); }
+.theme-row .ant-list-item-meta-avatar { display: flex; align-items: center; }
+.theme-row .theme-swatch { margin-top: 0; }
+
+/* ---- strong focus highlight on every text box / select / picker (uses the theme accent) ---- */
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-input-number:focus,
+.ant-input-number-focused,
+.ant-input-number-affix-wrapper-focused,
+.ant-picker-focused,
+.ant-select-focused:not(.ant-select-disabled) .ant-select-selector,
+.ant-input-outlined:focus,
+.ant-input-outlined-focused {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 32%, transparent) !important;
+  outline: none;
+}
+/* a lighter cue on hover so the active box is always easy to find */
+.ant-input:hover,
+.ant-input-affix-wrapper:hover,
+.ant-input-number:hover,
+.ant-picker:hover,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: var(--accent) !important;
+}
+
+/* Save in the form's footer / next to the title of a popup form */
+.ui-form-footer { display: flex; justify-content: flex-end; gap: 8px; }
+.ui-modal-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-right: 32px; }
+/* full-screen form */
+.ui-modal-full { top: 0 !important; margin: 0 !important; padding-bottom: 0 !important; max-width: 100vw !important; }
+.ui-modal-full .ant-modal-content { min-height: 100vh; border-radius: 0 !important; display: flex; flex-direction: column; }
+.ui-modal-full .ant-modal-body { flex: 1 1 auto; }
+
+/* floating Save button (bottom-right; inside a drawer it floats in the drawer) */
+[data-ui-save="float"] .save-action {
+  position: fixed !important;
+  right: 28px;
+  bottom: 28px;
+  z-index: 1100;
+  width: auto !important;
+  height: 48px;
+  padding-inline: 24px;
+  border-radius: 24px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+/* cards */
+[data-ui-card="shadow"] .page-card { border: none; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); }
+[data-ui-card="accent"] .page-card { border-top: 3px solid var(--accent); }
+[data-ui-card="flat"] .page-card { border: none; box-shadow: none; }
+
+/* Account Master: main ledgers (only a total of their sub-ledgers) */
+.row-main-ledger > td { background: color-mix(in srgb, var(--accent) 6%, transparent) !important; }
+
+/* Payment Entry: parties we owe stand out */
+.row-owed > td { background: var(--accent-soft) !important; }
+
+/* ==================================================================================================================
+   Shared layout of every theme (themes.js POSITIONS): boxes joined in a grid with a caption strip, status bar, Docket
+   Entry's charges + Save bar. Colours come from each theme's variables; Desktop Green restyles these in its own file.
+   ================================================================================================================== */
+.ui-grid-form .ant-row:not(.ant-form-item-row) { margin-inline: 0 !important; row-gap: 0 !important; }
+.ui-grid-form .ant-row:not(.ant-form-item-row) > .ant-col { padding-inline: 0 !important; }
+.ui-grid-form .ant-form-item {
+  margin: 0 -1px -1px 0 !important; border: 1px solid var(--header-border, #d9d9d9); background: var(--card-bg, #fff); position: relative;
+}
+.ui-grid-form .ant-form-item:focus-within { z-index: 2; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.ui-grid-form .ant-form-item-label {
+  padding: 0 6px !important; line-height: 16px !important; white-space: nowrap; overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 9%, var(--card-bg, #fff)); border-bottom: 1px solid var(--header-border, #e5e5e5);
+}
+.ui-grid-form .ant-form-item-label > label {
+  height: 16px !important; font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; line-height: 16px; max-width: 100%;
+}
+.ui-grid-form .ant-form-item .ant-input, .ui-grid-form .ant-form-item .ant-input-affix-wrapper, .ui-grid-form .ant-form-item .ant-input-number,
+.ui-grid-form .ant-form-item .ant-picker, .ui-grid-form .ant-form-item .ant-select-selector {
+  border: none !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important;
+}
+.ui-grid-form .ant-form-item .ant-input-number, .ui-grid-form .ant-form-item .ant-picker, .ui-grid-form .ant-form-item .ant-select { width: 100% !important; }
+.ui-grid-form .ant-form-item-explain, .ui-grid-form .ant-form-item-extra { font-size: 11px; padding: 0 6px 2px; min-height: 0; }
+.ui-grid-form .ant-form-item .ant-radio-group, .ui-grid-form .ant-form-item .ant-checkbox-wrapper { padding: 2px 4px; }
+
+.app-statusbar {
+  display: flex; align-items: stretch; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; height: 22px;
+  background: var(--accent); color: #fff; font-size: 11px; box-shadow: 0 -1px 4px rgba(0, 0, 0, .15);
+}
+.app-statusbar > span { display: flex; align-items: center; padding: 0 10px; border-right: 1px solid rgba(255, 255, 255, .25); white-space: nowrap; }
+.app-statusbar .sb-fill { flex: 1; border-right: none; }
+.app-statusbar .sb-ready { font-weight: 700; }
+@media (max-width: 900px) { .app-statusbar > span:nth-child(n+4):not(:last-child) { display: none; } }
+body:has(.app-statusbar) .app-content { padding-bottom: 28px; }
+
+.docket-summary-bar {
+  position: sticky; bottom: 22px; z-index: 5; display: flex !important; align-items: stretch; margin-top: 8px;
+  border: 1px solid var(--header-border, #d9d9d9); background: var(--card-bg, #fff); box-shadow: 0 -3px 10px rgba(0, 0, 0, .12);
+  border-radius: 6px; overflow: hidden;
+}
+.totals-strip { display: flex; flex: 1 1 auto; flex-wrap: wrap; min-width: 0; }
+.totals-cell { display: flex; flex-direction: column; flex: 1 1 96px; min-width: 96px; border-right: 1px solid var(--header-border, #eee); }
+.totals-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); padding: 0 6px; line-height: 16px;
+  background: color-mix(in srgb, var(--accent) 9%, var(--card-bg, #fff)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.totals-value { font-size: 13px; padding: 3px 6px; text-align: right; }
+.totals-grand { flex: 1.4 1 150px; background: var(--accent); }
+.totals-grand .totals-label { background: rgba(0, 0, 0, .15); color: #fff; }
+.totals-grand .totals-value { color: #fff; font-size: 18px; font-weight: 700; }
+.docket-summary-actions { flex: 0 0 auto; border: none !important; box-shadow: none !important; }
+.docket-summary-actions .ant-card-body { height: 100%; display: flex; align-items: center; padding: 4px 8px !important; }
+.docket-summary-actions .ant-space-vertical { flex-direction: row; gap: 6px !important; }
+.docket-summary-actions .ant-btn-block { width: auto; }
+
+/* Docket Entry: next-step buttons (manifest / challan / DRS) beside the manual docket no. */
+.docket-next-steps { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+.docket-next-label { font-size: 12px; color: var(--ant-color-text-secondary, #667085); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ui-grid-form .docket-next-steps { margin: 0 -1px -1px 0; gap: 0; border: 1px solid var(--header-border, #d9d9d9); height: calc(100% + 1px); }
+.ui-grid-form .docket-next-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); line-height: 16px; padding: 0 6px;
+  background: color-mix(in srgb, var(--accent) 9%, var(--card-bg, #fff)); border-bottom: 1px solid var(--header-border, #eee);
+}
+.ui-grid-form .docket-next-steps .ant-space-compact { padding: 2px 3px; }
+.ui-grid-form .docket-next-steps .ant-btn { flex: 1; }
+
+/* tables */
+[data-ui-table="striped"] .ant-table-tbody > tr:nth-child(even):not(.ant-table-row-selected) > td { background: var(--stripe); }
+.app-logo {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  color: var(--logo-color, #fff);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px !important;
+  border-bottom: 1px solid var(--header-border, #e6e9ef);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  /* glassy, frosted header */
+  background: var(--header-bg, rgba(255, 255, 255, 0.72)) !important;
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+.app-header .spacer { flex: 1; }
+.branch-switcher { width: 240px; min-width: 0; flex: 0 1 auto; }
+
+/* Collapsed sidebar */
+.app-logo-collapsed { justify-content: center; padding: 0; font-size: 20px; }
+.menu-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--menu-letter-bg, rgba(255, 255, 255, 0.18));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+/* Collapsed sidebar: highlight the section that holds the current page */
+.ant-menu-inline-collapsed > .ant-menu-submenu.section-active > .ant-menu-submenu-title {
+  background: var(--accent, #1f5fa8);
+  color: #fff;
+}
+/* Rail pop-outs: keep inside a phone screen */
+.ant-menu-submenu-popup .ant-menu-vertical { max-width: calc(100vw - 72px); max-height: calc(100vh - 16px); overflow-y: auto; }
+.ant-menu-submenu-popup .ant-menu-item-group-title { color: var(--group-title, rgba(255, 255, 255, 0.55)); font-size: 12px; text-transform: uppercase; }
+/* 56px icon rail on phones/tablets: centre the icons */
+.app-sider-rail .ant-menu-inline-collapsed > .ant-menu-item,
+.app-sider-rail .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  padding-inline: calc(50% - 8px) !important;
+  margin-inline: 4px;
+  width: calc(100% - 8px);
+}
+.app-content { padding: 16px; min-width: 0; }
+.page-card { max-width: 1400px; margin: 0 auto; }
+
+.module-tile {
+  text-align: center;
+  cursor: pointer;
+  height: 100%;
+}
+.module-tile .anticon { font-size: 36px; color: var(--accent, #1f5fa8); margin-bottom: 8px; }
+
+.money { text-align: right; font-variant-numeric: tabular-nums; }
+/* Project Flow page */
+.flow-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 24px 28px;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--sider-bg, #0f2a4a) 0%, var(--accent, #1f5fa8) 100%);
+}
+.flow-hero-text { flex: 1 1 420px; min-width: 0; }
+.flow-hero-tag { background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; border-color: rgba(255, 255, 255, 0.35) !important; }
+.flow-stat { height: 100%; border-top: 3px solid var(--accent, #1f5fa8); }
+@media (max-width: 768px) { .flow-hero { padding: 16px; } }
+
+/* manifest bagging panel (pages/manifest/BaggingPanel.jsx) */
+.bagging-panel { border: 1px dashed rgba(128, 128, 128, 0.45); padding: 8px 10px; margin-bottom: 10px; }
+.bagging-panel .bag-actions { margin-bottom: 8px; }
+.bagging-panel .bag-col { border: 1px solid rgba(128, 128, 128, 0.3); height: 300px; overflow: auto; padding: 4px 6px; margin-bottom: 6px; }
+.bagging-panel .bag-col-head { font-weight: 700; position: sticky; top: -4px; z-index: 1; padding: 4px 0; margin-bottom: 4px;
+  background: var(--ant-color-bg-container, inherit); border-bottom: 1px solid rgba(128, 128, 128, 0.3); }
+.bagging-panel .bag-row { padding: 1px 2px; }
+.bagging-panel .bag-card { border: 1px solid rgba(128, 128, 128, 0.3); padding: 4px 6px; margin-bottom: 6px; }
+.bagging-panel .bag-card-ticked { background: rgba(250, 200, 30, 0.18); }
+
+/* "+ New …" under a master drop-down's list (components/masters/MasterSelect.jsx) */
+.master-quick-add { border-top: 1px solid rgba(128, 128, 128, 0.25); margin-top: 4px; padding: 2px 4px 0; }
+.master-quick-add .ant-btn { font-weight: 600; padding-inline: 4px; }
+
+/* column headings above slab rows: the text colour of the look, dimmed (readable on light and dark) */
+.slab-head { font-size: 12px; opacity: 0.65; margin-bottom: 4px; }
+
+@media (max-width: 768px) {
+  .app-header .hide-sm { display: none; }
+  .app-content { padding: 8px; }
+  .app-header { gap: 8px; padding: 0 8px !important; }
+  .branch-switcher { flex: 1 1 auto; width: auto; }
+  /* Card header: title on its own line, buttons wrap below it */
+  .page-card .ant-card-head { padding: 8px 12px; }
+  .page-card .ant-card-head-wrapper { flex-wrap: wrap; gap: 8px; }
+  .page-card .ant-card-head-title { flex: 1 0 100%; padding: 0; }
+  .page-card .ant-card-extra { margin-inline-start: 0; padding: 0; }
+}

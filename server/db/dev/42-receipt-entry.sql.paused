@@ -1,0 +1,40 @@
+-- Receipt Entry - port of Accounts/Receipt_Entry.aspx: money received from a party into a Cash / Bank account.
+-- Automated: one receipt = Dr the cash/bank the money came into, Cr the party it came from (no manual Dr/Cr). Lines post
+-- to tblAccountTrasaction (Mode 'Receipt Note', VoucherNo = Receipt_No); this header table replaces the legacy receipt table.
+-- Safe to re-run on an already-seeded dev DB. Menu rows live ONLY here (not in 99-seed.sql).
+
+if object_id('tbl_receipt', 'U') is null
+create table tbl_receipt (
+  Receipt_No varchar(30) primary key,
+  Receipt_Date date,
+  Ref_No varchar(50),
+  ChequeNo varchar(50),
+  Narration varchar(500),
+  ReceivedFrom_Ledger varchar(20),
+  ReceivedInto_Ledger varchar(20),
+  Amount decimal(18,2),
+  Branch varchar(20),
+  Financial_Year varchar(20),
+  Division varchar(20),
+  User_id varchar(50),
+  CreatedDate datetime default getdate(),
+  IsCancelled bit default 0,
+  Cancelled_By varchar(50),
+  Cancelled_Date datetime,
+  Cancel_Remarks varchar(300)
+);
+GO
+
+if not exists (select 1 from MasterMenu where Menuid = 'M007')
+  insert into MasterMenu(Menuid, MenuName, MenuUrl, ActiveStatus) values ('M007', 'ACCOUNTS', '#', 'Y');
+if not exists (select 1 from SubMenu where SubMenuid = 'S080')
+  insert into SubMenu(Menuid, SubMenuid, SubMenuName, SubMenuUrl, ActiveStatus, division)
+  values ('M007', 'S080', 'Receipt Entry', 'Accounts/Receipt_Entry.aspx', 'Y', 'DIV1001,DIV1002,DIV1003');
+if not exists (select 1 from SubMenu where SubMenuid = 'S081')
+  insert into SubMenu(Menuid, SubMenuid, SubMenuName, SubMenuUrl, ActiveStatus, division)
+  values ('M007', 'S081', 'Receipt Entry View / Cancel', 'Accounts/Receipt_Entry_View.aspx', 'Y', 'DIV1001,DIV1002,DIV1003');
+if not exists (select 1 from Employee_Permission where Employeeid = 'EMP001' and MainMenuid = 'M007' and Sub_Menuid = 'S080')
+  insert into Employee_Permission(Employeeid, MainMenuid, Sub_Menuid, Sub_SubMenuid, ActiveStatus) values ('EMP001', 'M007', 'S080', null, 'Y');
+if not exists (select 1 from Employee_Permission where Employeeid = 'EMP001' and MainMenuid = 'M007' and Sub_Menuid = 'S081')
+  insert into Employee_Permission(Employeeid, MainMenuid, Sub_Menuid, Sub_SubMenuid, ActiveStatus) values ('EMP001', 'M007', 'S081', null, 'Y');
+GO
