@@ -37,6 +37,11 @@ ramas-modern/
 └─ docs/                    migration guide, security findings, verification checklist, page inventory
 ```
 
+## Run it in Docker (one container)
+
+SQL Server + API + React app in a single container — copy `docker/.env.example` to `.env`, fill in the passwords,
+then `docker compose up -d --build` and open http://localhost:8080. See [docs/DOCKER.md](docs/DOCKER.md).
+
 ## Run it locally
 
 Requirements: Node.js 20+ and access to a SQL Server database.

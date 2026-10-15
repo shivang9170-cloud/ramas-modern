@@ -1,0 +1,38 @@
+# Ramas ERP in ONE container: SQL Server + API + React app.
+#   1. copy docker/.env.example to .env (this folder) and fill in the passwords
+#   2. docker compose up -d --build
+#   3. open http://localhost:8080 (APP_PORT)            — logs: docker compose logs -f
+# Details: docs/DOCKER.md
+services:
+  ramas:
+    build: .
+    image: ramas-erp:latest
+    container_name: ramas
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:4000"
+      # SQL Server for SSMS on this PC only (server name: localhost,14330)
+      - "127.0.0.1:${SQL_PORT:-14330}:1433"
+    environment:
+      MSSQL_PID: ${MSSQL_PID:-Express}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:?set MSSQL_SA_PASSWORD in .env}
+      DB_NAME: ${DB_NAME:-ramas}
+      DB_USER: ${DB_USER:-ramas_app}
+      DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env (32+ characters)}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-10h}
+      COMPANY_CODE: ${COMPANY_CODE:-RELL}
+      HEAD_OFFICE_BRANCH: ${HEAD_OFFICE_BRANCH:-B1001}
+      # every user reaches the container from the same Docker address, so the per-IP limits are shared by all users
+      API_RATE_LIMIT: ${API_RATE_LIMIT:-20000}
+      API_WRITE_RATE_LIMIT: ${API_WRITE_RATE_LIMIT:-4000}
+      RAMAS_DEMO: ${RAMAS_DEMO:-0}
+      RAMAS_RESTORE_BAK: ${RAMAS_RESTORE_BAK:-}
+    volumes:
+      - ramas-sql:/var/opt/mssql          # the database files — survives rebuilds
+      - ramas-uploads:/app/server/uploads # POD images
+      - ./docker/backup:/backup:ro        # a .bak placed here can be restored on the first start (RAMAS_RESTORE_BAK)
+
+volumes:
+  ramas-sql:
+  ramas-uploads:

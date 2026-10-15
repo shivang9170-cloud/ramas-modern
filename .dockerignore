@@ -1,0 +1,16 @@
+# Only the source the image needs goes to the Docker build (see Dockerfile)
+**/node_modules
+client/dist
+**/.env
+.git
+.claude
+Claude outputs
+azure-package
+azure-package.zip
+docs
+scripts
+server/test
+server/uploads
+docker/backup
+**/*.bak
+**/*.log
