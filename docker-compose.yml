@@ -6,7 +6,8 @@
 services:
   ramas:
     build: .
-    image: ramas-erp:latest
+    # RAMAS_IMAGE=<user>/ramas-erp:latest uses the image from Docker Hub (docker compose pull; docker compose up -d --no-build)
+    image: ${RAMAS_IMAGE:-ramas-erp:latest}
     container_name: ramas
     restart: unless-stopped
     ports:

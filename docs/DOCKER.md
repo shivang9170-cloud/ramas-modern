@@ -48,6 +48,31 @@ On the **first start only** (the database `DB_NAME` does not exist yet in the vo
 
 `RAMAS_DEMO=1` instead loads the dashboard demo data into a new database.
 
+## Docker Hub (image built by GitHub, no Docker needed on the PC)
+
+`.github/workflows/docker-hub.yml` builds the image on GitHub after every push to `main` (or by hand: Actions →
+Docker Hub → Run workflow), starts it once as a test (database set-up, API, React app, admin login) and pushes
+`<user>/ramas-erp:latest` (and `:<commit>`) to Docker Hub.
+
+One-time set-up:
+
+1. hub.docker.com → Create repository `ramas-erp`, visibility **Private** (the image contains the application's code).
+2. Docker Hub → Account settings → Personal access tokens → Generate, access **Read & Write**.
+3. GitHub repo → Settings → Secrets and variables → Actions:
+   * Secrets → `DOCKERHUB_TOKEN` = that token
+   * Variables → `DOCKERHUB_USERNAME` = the Docker Hub user name (the workflow is skipped while it is not set)
+
+Run the Docker Hub image on any PC with Docker (no build): `docker login`, then in `.env` set
+`RAMAS_IMAGE=<user>/ramas-erp:latest` and:
+
+```bash
+docker compose pull
+```
+
+```bash
+docker compose up -d --no-build
+```
+
 ## Day to day
 
 | Task | Command |
